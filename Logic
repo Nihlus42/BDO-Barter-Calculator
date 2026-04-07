@@ -1,0 +1,53 @@
+import math
+
+charge_boat = int(input("Charge max du bateau : "))
+
+convert_t1 = int(input("Base -> T1 : "))
+convert_t2 = int(input("T1 -> T2 : "))
+convert_t3 = int(input("T2 -> T3 : "))
+convert_t4 = int(input("T3 -> T4 : "))
+convert_t5 = int(input("T4 -> T5 : "))
+
+pt_base = 10
+pt1 = 100
+pt2 = 800
+pt3 = 900
+pt4 = 1000
+pt5 = 1000
+
+t5_trades = 6
+
+needed_t4 = t5_trades
+needed_t3 = math.ceil(needed_t4 / convert_t4)
+needed_t2 = math.ceil(needed_t3 / convert_t3)
+needed_t1 = math.ceil(needed_t2 / convert_t2)
+needed_base = math.ceil(needed_t1 / convert_t1)
+
+produced_t1 = needed_base * convert_t1
+produced_t2 = needed_t1 * convert_t2
+produced_t3 = needed_t2 * convert_t3
+produced_t4 = needed_t3 * convert_t4
+produced_t5 = needed_t4 * convert_t5
+
+charge_base = needed_base * pt_base
+charge_t1 = produced_t1 * pt1
+charge_t2 = produced_t2 * pt2
+charge_t3 = produced_t3 * pt3
+charge_t4 = produced_t4 * pt4
+charge_t5 = produced_t5 * pt5
+
+max_charge_seen = max(charge_base, charge_t1, charge_t2, charge_t3, charge_t4, charge_t5)
+
+print("\n--- Résultat ---")
+print(f"Base nécessaires : {needed_base} | Poids : {charge_base}")
+print(f"T1 produits : {produced_t1} | Poids : {charge_t1}")
+print(f"T2 produits : {produced_t2} | Poids : {charge_t2}")
+print(f"T3 produits : {produced_t3} | Poids : {charge_t3}")
+print(f"T4 produits : {produced_t4} | Poids : {charge_t4}")
+print(f"T5 produits : {produced_t5} | Poids : {charge_t5}")
+print(f"Charge max rencontrée : {max_charge_seen}/{charge_boat}")
+
+if max_charge_seen <= charge_boat:
+    print("Ça passe dans le bateau.")
+else:
+    print("Trop lourd à une étape de la chaîne.")
