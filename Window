@@ -1,0 +1,73 @@
+import tkinter as tk
+from tkinter import ttk
+from Barter import calculate_barter
+
+window = tk.Tk()
+window.title("BDO barter calculator")
+window.geometry("500x450")
+
+ttk.Label(window, text="Charge boat").pack()
+entry_charge = ttk.Entry(window)
+entry_charge.pack()
+entry_charge.insert(0, "20000")
+
+ttk.Label(window, text="Base -> T1").pack()
+entry_t1 = ttk.Entry(window)
+entry_t1.pack()
+entry_t1.insert(0, "10")
+
+ttk.Label(window, text="T1 -> T2").pack()
+entry_t2 = ttk.Entry(window)
+entry_t2.pack()
+entry_t2.insert(0, "1")
+
+ttk.Label(window, text="T2 -> T3").pack()
+entry_t3 = ttk.Entry(window)
+entry_t3.pack()
+entry_t3.insert(0, "2")
+
+ttk.Label(window, text="T3 -> T4").pack()
+entry_t4 = ttk.Entry(window)
+entry_t4.pack()
+entry_t4.insert(0, "2")
+
+ttk.Label(window, text="T4 -> T5").pack()
+entry_t5 = ttk.Entry(window)
+entry_t5.pack()
+entry_t5.insert(0, "1")
+
+
+def run_calculation():
+    try:
+        charge = int(entry_charge.get())
+        t1 = int(entry_t1.get())
+        t2 = int(entry_t2.get())
+        t3 = int(entry_t3.get())
+        t4 = int(entry_t4.get())
+        t5 = int(entry_t5.get())
+
+        result = calculate_barter(charge, t1, t2, t3, t4, t5)
+
+        display_text = (
+            f"Max T5 possible: {result['max_t5']}\n"
+            f"Base items to take: {result['total_base']} | Weight: {result['charge_base']}\n\n"
+            f"T1 needed: {result['total_t1']} | Weight: {result['charge_t1']}\n"
+            f"T2 needed: {result['total_t2']} | Weight: {result['charge_t2']}\n"
+            f"T3 needed: {result['total_t3']} | Weight: {result['charge_t3']}\n"
+            f"T4 needed: {result['total_t4']} | Weight: {result['charge_t4']}\n"
+            f"T5 obtained: {result['total_t5']} | Weight: {result['charge_t5']}"
+        )
+
+        result_label.config(text=display_text)
+
+    except ValueError:
+        result_label.config(text="Please enter valid integers.")
+
+
+button = ttk.Button(window, text="Calculate", command=run_calculation)
+button.pack(pady=20)
+
+result_label = ttk.Label(window, text="", justify="left", wraplength=450)
+result_label.pack()
+
+window.mainloop()
